@@ -13,7 +13,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val etnvovatarefa = findViewById<EditText>(R.id.etnovatarefa)
+        val etnovatarefa = findViewById<EditText>(R.id.etnovatarefa)
         val btadd = findViewById<Button>(R.id.btadd)
         val lvtarefas = findViewById<ListView>(R.id.lvtarefas)
 
@@ -23,26 +23,27 @@ class MainActivity : AppCompatActivity() {
 
         lvtarefas.adapter = adapter
 
-        btadd.setOnClickListener {
-            if (etnvovatarefa.text.isNullOrEmpty()) {
+        btadd.setOnClickListener{
+            if (etnovatarefa.text.isNullOrEmpty()){
                 Toast.makeText(this, "Digite uma tarefa...", Toast.LENGTH_SHORT).show()
             } else {
-                listaTarefas.add(etnvovatarefa.text.toString())
+                listaTarefas.add(etnovatarefa.text.toString())
                 adapter.notifyDataSetChanged()
-                etnvovatarefa.setText("")
+                etnovatarefa.setText("")
             }
         }
-        //Botão de alert
-        lvtarefas.setOnItemClickListener { _, _, position, _ ->
+
+        lvtarefas.setOnItemLongClickListener{ _, _, position, _ ->
             val alerta = AlertDialog.Builder(this)
             alerta.setTitle("Atenção")
             alerta.setMessage("Quer mesmo excluir esse item?")
-            alerta.setPositiveButton("Confirmar") { dialog, _ ->
+            alerta.setPositiveButton("Confirmar") {dialog, _ ->
+
                 listaTarefas.removeAt(position)
                 adapter.notifyDataSetChanged()
                 dialog.dismiss()
             }
-            alerta.setNegativeButton("Cancelar") {dialog, _ ->
+            alerta.setNegativeButton("Cancelar") { dialog, _ ->
                 dialog.dismiss()
             }
             alerta.create().show()
